@@ -1,0 +1,404 @@
+$bkBtnSize: 52px;
+.bk-btn {
+  height: $bkBtnSize;
+  width: $bkBtnSize;
+  background-color: black;
+  border-radius: 50%;
+  .bk-btn-triangle {
+    position: relative;
+    top: $bkBtnSize*0.25;
+    left: $bkBtnSize*0.2;
+    width: 0; 
+    height: 0; 
+    border-top: $bkBtnSize*0.25 solid transparent;
+    border-bottom: $bkBtnSize*0.25 solid transparent; 
+    border-right: $bkBtnSize*0.25 solid white; 
+  }
+  .bk-btn-bar {
+    position: relative;
+    background-color: white;
+    height: $bkBtnSize*0.15;
+    width: $bkBtnSize*0.25;
+    top: $bkBtnSize*-0.07;
+    left: $bkBtnSize*0.44;
+  }
+}
+
+$menu-width: 60px;
+$menu-height: 60px;
+$menu-item-lenght: 40px;
+$menu-quantity: 7;
+$content-width: ($menu-item-lenght *  $menu-quantity) /2;
+$content-height: ($menu-item-lenght *  $menu-quantity) /2;
+
+$angle: 300/$menu-quantity;
+$start-angle: 60deg;
+
+.inv-menu-circle{     
+    margin-top:20px;    
+    position: relative;   
+     margin-left: 20px;        
+}
+
+@keyframes btn-animation{
+  from{
+      transform: scale(0.1);
+  }
+  to{
+      transform: scale(1);
+  }  
+}
+
+.inv-buttom-menu{
+  background-color:#926819;
+  width: $menu-width;   
+  height: $menu-height; 
+  border-radius: 50%;
+  color:white;
+  position: absolute;
+   z-index: 200;    
+  transition: all 300ms linear;  
+  animation: btn-animation 1s linear;
+}
+
+#ckd-menu-circle{
+    display:none;
+}
+
+
+.dash{
+    width: 30px;;
+    height: 4px;
+    background-color: white;    
+    margin-top: 4px;
+    top: 50%;    
+    left:50%;
+    position: absolute;
+    transition: all 300ms linear;
+    margin-top: -2px;
+    margin-left: -15px;
+}
+
+.dash1{
+  transform: translate3d(0px,-8px, 0px);    
+}
+
+.dash2{
+  transform: translate3d(0px, 0px, 0px);  
+}
+
+.dash3{
+  transform: translate3d(0px,8px, 0px);  
+}
+
+.inv-menu-circle-content{    
+   position: absolute;
+   width: $content-width;
+   height: $content-height;
+   border-radius: 50%;  
+   margin-top: $menu-height /4;
+   transition: all 3s linear;   
+}
+
+.inv-menu-circle-item{
+  background-color: #926819;
+  position: absolute;
+  border-radius: 50%;  
+  height: $menu-item-lenght;
+  width: $menu-item-lenght;
+  top: 50%;
+  left: 50%;
+  margin: -20px;
+  z-index: 1;
+}
+
+#ckd-menu-circle:checked~.inv-buttom-menu{
+                 
+                  
+        .dash1{
+             transform: translate3d(0,0,0) rotate(45deg); 
+             
+        }  
+        .dash2{
+           transform: translate3d(0,0,0) scale(0.1, 0.1);            
+        }
+        .dash3{
+            transform: translate3d(0,0,0) rotate(-45deg);
+            
+        }  
+} 
+
+#ckd-menu-circle:checked~.inv-menu-circle-content {    
+  
+  .inv-menu-circle-item{     
+    display: block;
+  }
+            
+   @for $i from 1 through $menu-quantity {
+     
+     @keyframes itemrun0#{$i} {
+          from {
+            transform: rotate($start-angle)
+                       translate(-($content-width/2))
+                       rotate(-($start-angle));
+            opacity: 0;
+          }
+          to {
+            transform: rotate($start-angle + ($angle * $i))
+                       translate(-($content-width / 2)) 
+                       rotate(-($start-angle + ($angle * $i)));
+             opacity: 1
+          }
+        }
+     
+      .inv-menu-circle-item#{$i} { 
+        animation: itemrun0#{$i} 750ms cubic-bezier(.17,.67,.83,.67) forwards;
+        opacity:1;
+      }
+  }     
+}
+
+@for $i from 1 through $menu-quantity {
+     
+     @keyframes itemrunrevert0#{$i} {
+          from {
+            transform: rotate($start-angle)
+                       translate(-($content-width/2))
+                       rotate(-($start-angle));
+             opacity: 0
+          }
+          to {
+            transform: rotate($start-angle + ($angle * $i))
+                       translate(-($content-width / 2)) 
+                       rotate(-($start-angle + ($angle * $i)));            
+             opacity: 1;
+                
+          }
+        }
+     
+      .inv-menu-circle-item#{$i} {        
+            animation: itemrunrevert0#{$i} 750ms cubic-bezier(0,0,.58,1) forwards reverse;       
+      }
+  }
+
+.inv-menu-circle-content{
+    left: -3000px;
+    tansition: left 2s linear;
+    left: 0;
+}
+  
+  
+
+
+body{
+    overflow:hidden;
+  }
+  .pyramid{
+    $size: 100vw;
+    position:absolute;
+    right: 50vw;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    transform: translateX(0);
+  border-style: solid;
+  border-width: 0 $size $size*1.2 $size;
+  border-color: transparent transparent #E8A653 transparent;
+  }
+  
+  .sand{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height: 9vw;
+    min-height: 8rem;
+    background:#FFBD4D;
+  }
+  
+  .ternary-system{
+    position:absolute;
+    bottom:0;
+    // right:17vw;
+    left: 82vw;
+    transform: translateX(-100%);
+  }
+  
+  .sun{
+    position:relative;
+    border-radius:50%;
+    background:#FFDE72;
+  }
+  
+  .sun.primary{
+    position: absolute;
+    top:15vw;
+    left:5vw;
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .sun.secondary{
+    position: absolute;
+    top:5vw;
+    left: 11vw;
+    width: 16vw;
+    max-width:6rem;
+    height: 16vw;
+    max-height:6rem;
+  }
+  
+  .sun.ternary{
+    right:0;
+    transform: translateX(10.8rem);
+    width:80vw;
+    max-width: 800px;
+    height:80vw;
+    max-height: 800px;
+  }
+  
+  .pendulums{
+    position:absolute;
+    width:50px;
+    height:200px;
+    right:35vw;
+    top:-120px;
+    perspective:400px;
+  }
+  
+  .pendulum{
+    position:absolute;
+    width:50px;
+    height:200px;
+    right:44%;
+    top:0;
+    left:50%;
+    transform: translateZ(-300px) translateX(-50%);
+  }
+  
+  .pendulum.shadow{
+    top:263%;
+    left:-65%;
+    bottom:0;
+    transform-origin: 50% 0;
+  transform:translateX(-50%) scaleY(-1) scaleZ(2) rotateY(-30deg) rotateX(-75deg) translateZ(300px);
+  }
+  
+  .pendulum .bar{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:0;
+    display:block;
+    width: 20px;
+    height:200px;
+    background:#333;
+  }
+  
+  .pendulum .string{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:2px;
+    height:150px;
+    background:#333;
+  }
+  
+  .pendulum .weight{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:10px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#333;
+  }
+  
+  .pendulum .motion{
+    position:absolute;
+    height:200px;
+    width:50px;
+    transform-origin:50% 10px;
+    animation: swing 1600ms infinite ease-in-out;
+  }
+  
+  .pendulum.shadow .bar, .pendulum.shadow .string, .pendulum.shadow .weight{
+    background:#3d3a34;
+  }
+  
+  @import url(https://fonts.googleapis.com/css?family=Oswald:300,400,700);
+  
+  .text{
+    position:absolute;
+    width: auto;
+    right: 18vw;
+    bottom: calc(63vh);
+    transform: translateY(50%);
+    font-size:2.6rem;
+  }
+  
+  .title{
+    text-align:center;
+    font-size: 1em;
+    font-family:'Oswald';
+    font-weight:300;
+    text-transform:uppercase;
+    line-height:1.3em;
+    margin:0;
+    color:#222;
+  }
+  
+  .title strong{
+    display:block;
+    font-weight:700;
+    font-size:2em;
+    line-height:1em;
+  }
+  
+  .title em{
+    font-style:normal;
+    font-weight:400;
+    font-size:1.899em;
+    line-height:1em;
+    letter-spacing:.29em;
+    margin-left:0.25em;
+  }
+  
+  p{
+    position: absolute;
+    left: 50%;
+    transform: translateX(3.2em);
+    font-family:'Oswald';
+    font-size: 0.6em;
+    color:#222;
+    margin:0 17px;
+    padding:0;
+    text-align:right;
+  }
+  
+  @keyframes swing{
+    0%{    
+    transform:rotate(-45deg);
+    }
+    50%{
+      
+    transform:rotate(45deg);
+    }
+    100%{
+      
+    transform:rotate(-45deg);
+    }
+  }
+  
+  @media only screen and (orientation: portrait) {
+    .text{
+      right: 50%;
+      top: 10%;
+      transform: translateX(50%);
+      font-size: 7vw;
+    }
+    .title{ 
+      font-size: 1em;
+    }
+  }
+  

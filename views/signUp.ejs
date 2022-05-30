@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="signUp.css" />
+  </head>
+  <body>
+    <div class="bk-btn"><div class="bk-btn-triangle"></div><div class="bk-btn-bar"></div></div>
+    <section class="user">
+      <div class="user_options-container">
+        <div class="user_options-text">
+          <div class="user_options-unregistered">
+            <h2 class="user_unregistered-title">Don't have an account?</h2>
+            <p class="user_unregistered-text">
+              Banjo tote bag bicycle rights, High Life sartorial cray craft beer
+              whatever street art fap.
+            </p>
+            <button class="user_unregistered-signup" id="signup-button">
+              Sign up
+            </button>
+          </div>
+          <div class="user_options-registered">
+            <h2 class="user_registered-title">Have an account?</h2>
+            <p class="user_registered-text">
+              Banjo tote bag bicycle rights, High Life sartorial cray craft beer
+              whatever street art fap.
+            </p>
+            <button class="user_registered-login" id="login-button">
+              Login
+            </button>
+          </div>
+        </div>
+
+        <div class="user_options-forms" id="user_options-forms">
+          <div class="login-box user_forms-login">
+            <h2 class="box_title">Login</h2>
+            <form action="/login" method="POST"   class="forms_form">
+              <div class="user-box forms_field">
+                <input type="text" name="email" required />
+                <label>Username</label>
+              </div>
+              <div class="user-box">
+                <input type="password" name="password" required />
+                <label>Password</label>
+              </div>
+              <button href="#" type="submit">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Login
+              </button>
+            </form>
+          </div>
+
+          <div class="user_forms-signup login-box">
+            <h2 class="box_title">Sign Up</h2>
+            <form action="/signUp" class="forms_form" method="POST" >
+              <div class="user-box">
+                <input type="text" name="email" required />
+                <label>Username</label>
+              </div>
+              <div class="user-box">
+                <input type="password" name="password" required />
+                <label>Password</label>
+              </div>
+              <button type="submit" href="#">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Signup
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="signUp.js"></script>
+  </body>
+</html>
