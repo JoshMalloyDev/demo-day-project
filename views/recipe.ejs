@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="recipes.css">
+    <title>Document</title>
+  </head>
+  <body>
+
+    <label for="theme" class="theme">
+        <span>Light</span>
+        <span class="theme__toggle-wrap">
+            <input id="theme" class="theme__toggle" type="checkbox" role="switch" name="theme" value="dark">
+            <span class="theme__fill"></span>
+            <span class="theme__icon"> </span>
+        </span>
+        <span>Dark</span>
+    </label>
+
+    <h1>Enter A New Recipe</h1>
+<p id="description">Have trouble deciding what you want to eat? Input your recipes here, and we'll store this info. When you need us to decide for you, we'll choose for you. Depending on the time of day, we'll make sure to provide you with one of your breakfast, lunch, or dinner recipes.</p>
+    <table class="recipeTable">
+      <tr class="labels">
+        <th>Description</th>
+        <th>Step</th>
+        <th>Remove</th>
+      </tr>
+      <tr class="somerow">
+        <td><input type="text" class="step"placeholder="your recipe steps" /></td>
+        <td>1</td>
+        <td><input type="checkbox" /></td>
+      </tr>
+    </table>
+    <div class="whatTimeIsIt">
+      <input class="recipeTitle" type="text" placeholder="Recipe Title">
+      <label for="whatTimeIsIt">Meal Type</label>
+      <select class="time" name="whatTimeIsIt" >
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+      </select>
+    </div>
+    <div class="tableButtons">
+        <button type="submit" class="logRecipe">log recipe</button>
+        <input type="button" class="addStep" value="add step" onclick="addRow('recipeTable')"></button>
+        <input type="button" class="removeStep" value="remove step" onclick="deleteRow('recipeTable')"></button>
+    </div>
+
+    <h2 class="finalResult"></h2>
+ 
+        <details>
+          <summary class="button">Choose a meal for me</summary>
+                  
+          <div>
+            <%console.log(randomMeal)%>
+           <h2>It's <%=randomMeal.whatTimeIsIt%> time, so we think you should eat <%=randomMeal.recipeTitle%></h2>
+           
+            <p>Here are the steps to make it</p>
+            <ol>
+              <% for (let i = 0; i<randomMeal.steps.length; i++){%>
+                <li><%= randomMeal.steps[i]%></li>
+               <%}%> 
+              
+              <li> 
+            </ol>
+          </div>
+          </details>
+ 
+<script src="recipes.js"></script>
+  </body>
+</html>

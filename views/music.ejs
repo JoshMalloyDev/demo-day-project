@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Music Timer</title>
+  <link rel="stylesheet" href="music.css" />
+</head>
+
+<body>
+  <div class="timer">
+    <div class="page-header">name, Lets get focused</div>
+    <div class="actions">
+      <label>your tasks</label>
+      <select name="test" id="testTwo">
+
+
+        <% for(let i=0; i<tasks.length; i++){%>
+          <option value="<%=tasks[i].task %>">
+            <%=tasks[i].task %>
+          </option>
+
+          <%}%>
+            person selcts their task
+            they inpput how much time they want
+            they hit select or run
+            timer starts
+            music starts
+            when timer is finished
+            stop music
+            have a submit button show up
+
+            when they hit submit save the task and length of time
+            handle how many time the task has been completed per user
+            figure out how to save the data will it be on the users account in mongoDB
+            <input type="number" class="minutes" placeholder="minutes" />
+            <button class="start">start</button>
+    </div>
+
+    <div class="clock">
+      <div class="hour"></div>
+      <div class="min"></div>
+      <div class="sec"></div>
+    </div>
+    <div class="switch-cont">
+      <button class="switch-btn">Light mode</button>
+    </div>
+  </div>
+  <script src="music.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,320 @@
+/*General Styling*/
+body {
+  font-family: "Open Sans", Futura, Helvetica, Arial, sans-serif;
+  position: relative;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  color: #fff0a5;
+  background-color: #468966;
+}
+
+.container {
+  display: block;
+  margin-top: 10%;
+}
+
+h1 {
+  font-size: 3em;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.container > p {
+  font-size: 1.5em;
+  text-transform: uppercase;
+  width: 60%;
+  margin: auto;
+  margin-top: 3%;
+}
+
+[href] {
+  color: #468966;
+  text-decoration: none;
+  font-size: inherit;
+}
+
+hr {
+  display: block;
+  -webkit-margin-before: 0.5em;
+  -webkit-margin-after: 0.5em;
+  -webkit-margin-start: auto;
+  -webkit-margin-end: auto;
+  border-style: inset;
+  border-width: 1px;
+  width: 80px;
+}
+
+/*Burger-Menu*/
+
+.menu {
+  position: absolute;
+  top: -170px;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.menu span {
+  margin: 0 auto;
+  position: relative;
+  top: 45px;
+}
+
+.menu span:before,
+.menu span:after {
+  position: absolute;
+  content: "";
+}
+.menu span,
+.menu span:before,
+.menu span:after {
+  width: 30px;
+  height: 6px;
+  background-color: #fff0a5;
+  display: block;
+}
+.menu span:before {
+  margin-top: -12px;
+}
+.menu span:after {
+  margin-top: 12px;
+}
+
+/*Fake-Trigger*/
+#sized {
+  width: 60px;
+  height: 50px;
+  color: transparent;
+  background-color: transparent;
+  border: transparent;
+}
+
+/*Modal-Box*/
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.modal-content {
+  position: relative;
+  margin: auto;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.8s;
+  animation-name: animatetop;
+  animation-duration: 0.8s;
+  background-color: #fff0a5;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #fff0a5;
+  border-bottom: none;
+  height: 35vh;
+}
+
+.modal-body {
+  padding: 2px 16px;
+  background-color: #fff0a5;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #fff0a5;
+  color: black;
+  border-top: none;
+  text-align: center;
+}
+
+.modal-footer hr {
+  margin-top: 20vh;
+}
+
+.modal-footer > p {
+  color: #468966;
+}
+
+.modal-footer h3 {
+  text-transform: none;
+  font-size: 4vh;
+}
+
+.close {
+  color: #468966;
+  float: right;
+  font-size: 5em;
+  font-weight: bold;
+  opacity: 1;
+  padding: 0 10px 0 0;
+}
+
+.close:hover,
+.close:focus {
+  color: #b64926;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.zoomIn {
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+}
+
+.animated {
+  -webkit-animation-duration: 0.9s;
+  animation-duration: 0.8s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/*Navigation Inner Styling*/
+
+.nav ul li a:hover {
+  text-decoration: none;
+  color: #b64926;
+}
+
+.nav ul li a {
+  padding: 1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 3vw;
+  letter-spacing: -0.05em;
+}
+
+.nav ul li {
+  display: inline-block;
+  font-size: 3em;
+}
+
+.nav ul {
+  clear: both;
+  width: 100%;
+  text-align: center;
+}
+
+/*Mobile Optimization*/
+/* Portrait Tablet to Landscape and Desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+  .nav ul li {
+    display: block;
+    height: 45px;
+  }
+
+  .nav ul {
+    clear: both;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+  }
+
+  .nav ul li a {
+    padding: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 6vw;
+    letter-spacing: -0.05em;
+  }
+}
+
+/* Landscape-Phone to Portrait Tablet*/
+@media (max-width: 767px) {
+  .nav ul li {
+    display: block;
+    height: 38px;
+  }
+
+  .nav ul {
+    clear: both;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+  }
+
+  .nav ul li a {
+    padding: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 6vw;
+    letter-spacing: -0.05em;
+  }
+}
+
+/*Landscape-Phone Downwards*/
+@media (max-width: 480px) {
+  .nav ul li {
+    display: block;
+    height: 38px;
+  }
+
+  .nav ul {
+    clear: both;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+  }
+
+  .nav ul li a {
+    padding: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 10vw;
+    letter-spacing: -0.05em;
+  }
+}
+
+/* TESTING */
+
+h1 {
+  position: relative;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  font-size: 10em;
+  letter-spacing: 2px;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgb(215, 255, 104),
+    #fff,
+    rgb(138, 197, 42)
+  );
+
+  background-repeat: no-repeat;
+  background-size: 80%;
+  animation: animate 8s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+}
+
+@keyframes animate {
+  0% {
+    background-position: -500%;
+  }
+  100% {
+    background-position: 500%;
+  }
+}

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -9,6 +10,8 @@ const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
 const configDB = require('./config/database.js')
+const cors = require('cors');
+
 var db
 
 const dbName = "demo";
@@ -21,7 +24,7 @@ mongoose.connect(configDB.url, (err, database)=>{
 })
 
 require('./config/passport')(passport)
-
+app.use(cors())
 app.use(morgan('dev'))
 app.use(cookieParser())
 app.use(bodyParser.json())
@@ -32,16 +35,16 @@ app.set('view engine', 'ejs')
 app.use(session({
   secret: 'rcbootcamp2022a',
   resave: true,
-  saveUninitailized: true
+  saveUninitialized: true
 }))
 
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-let PORT = 3004
+let PORT = 3000
 app.listen(PORT);
-console.log('server is running')
+console.log(`server is running on ${PORT}`)
 
 
 app.get('/', (req, res) => {

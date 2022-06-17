@@ -1,0 +1,271 @@
+
+
+h1 {
+  margin-top: 6%;
+  font-size: 3.5em;
+}
+
+table {
+  display: flex;
+  width: 50%;
+  margin: auto;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 1.5em;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.288);
+  font-size: 1.5em;
+  background-color: rgb(223, 223, 223);
+  /* z-index: 0; */
+}
+
+tbody {
+  text-align: center;
+  width: 100%;
+}
+
+.step {
+  width: 100%;
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid black;
+  font-family: monospace;
+}
+.whatTimeIsIt{
+  margin-top: 36px;
+  width: 50%;
+}
+.whatTimeIsIt input{
+  width: 60%;
+  padding: 5px;
+  font-family: monospace;
+
+}
+.whatTimeIsIt select{
+  font-family: monospace;
+  padding: 5px;
+
+}
+td {
+  width: 50%;
+  padding: 20px;
+}
+
+body {
+  padding: 2em 4em;
+  padding: 2em 4em;
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+}
+
+.tableButtons input,
+.tableButtons button {
+  padding: 1em 2em;
+  border-radius: 3em;
+  border: none;
+  margin-top: 50px;
+  font-family: monospace;
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.tableButtons input:hover,
+.tableButtons button:hover,
+.button:hover {
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.button {
+  width: 14em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+  padding: 1em 2em;
+  background: DEEPPINK;
+  border-radius: 3em;
+  color: white;
+  cursor: pointer;
+}
+
+details > div {
+  width: 60em;
+  border: 2px solid black;
+  padding: 2em 2em;
+  position: fixed;
+  height: 32em;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  font-size: 1em;
+  background: white;
+  z-index: 3;
+  box-shadow: 10px 10px 3px rgb(68, 68, 68);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+details > div > p {
+  font-size: 1.5em;
+}
+
+details > div > h2 {
+  font-size: 2em;
+}
+
+details[open] summary::after {
+  content: "×";
+  font-size: 40pt;
+  position: fixed;
+  right: calc((42vw - 180px) - 2em);
+  top: calc((45vh - 120px) - 2em);
+  padding: 5pt 10pt;
+  z-index: 9;
+}
+
+details[open] summary::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+:root {
+  --hue: 223;
+  --bg: hsl(var(--hue), 10%, 100%);
+  --fg: hsl(var(--hue), 10%, 0%);
+  --primary: hsl(var(--hue), 90%, 55%);
+  --primaryT: hsla(var(--hue), 90%, 55%, 0);
+  --transDur: 0.3s;
+}
+
+html,
+body {
+  background-color: var(--bg);
+}
+
+body {
+  color: var(--fg);
+}
+
+/* Default */
+.theme {
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.theme__fill,
+.theme__icon {
+  transition: transform var(--transDur) ease-in-out;
+}
+.theme__fill {
+  background-color: var(--bg);
+  display: block;
+  mix-blend-mode: difference;
+  position: fixed;
+  inset: 0;
+  height: 100%;
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.theme__icon {
+  display: block;
+  top: 0.75em;
+  left: 0.75em;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.theme__label,
+.theme__toggle,
+.theme__toggle-wrap {
+  position: relative;
+}
+.theme__toggle,
+.theme__toggle:before {
+  display: block;
+}
+.theme__toggle {
+  background-color: hsl(48, 90%, 85%);
+  border-radius: 25% / 50%;
+  box-shadow: 0 0 0 0.125em var(--primaryT);
+  padding: 0.25em;
+  width: 6em;
+  height: 3em;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color var(--transDur) ease-in-out,
+    box-shadow 0.15s ease-in-out, transform var(--transDur) ease-in-out;
+}
+.theme__toggle:before {
+  background-color: hsl(48, 90%, 55%);
+  border-radius: 50%;
+  content: "";
+  width: 2.5em;
+  height: 2.5em;
+  transition: background-color var(--transDur) ease-in-out,
+    transform var(--transDur) ease-in-out;
+}
+.theme__toggle:focus {
+  box-shadow: 0 0 0 0.125em var(--primary);
+  outline: transparent;
+}
+
+/* Checked */
+.theme__toggle:checked {
+  background-color: hsl(198, 90%, 15%);
+}
+.theme__toggle:checked:before,
+.theme__toggle:checked ~ .theme__icon {
+  transform: translateX(3em);
+}
+.theme__toggle:checked:before {
+  background-color: hsl(198, 90%, 55%);
+}
+.theme__toggle:checked ~ .theme__fill {
+  transform: translateX(0);
+}
+.theme__toggle:checked ~ {
+  box-shadow: 0.2em -0.2em 0 0.2em hsl(0, 0%, 100%) inset;
+  transform: scale(1);
+}
+.theme__toggle:checked ~ .theme__icon {
+  opacity: 0;
+}
+
+.theme__toggle-wrap {
+  margin: 0 0.75em;
+}
+
+@supports selector(:focus-visible) {
+  .theme__toggle:focus {
+    box-shadow: 0 0 0 0.125em var(--primaryT);
+  }
+  .theme__toggle:focus-visible {
+    box-shadow: 0 0 0 0.125em var(--primary);
+  }
+}
+
+#description {
+  font-style: italic;
+  font-size: 1.5em;
+  width: 70%;
+  margin: auto;
+  text-align: center;
+  padding-bottom: 2%;
+}

@@ -5,16 +5,7 @@
   background-color: black;
   border-radius: 50%;
 }
-a{
-  color: black;
-}
-a:hover{
-  color: white;
-}
-.fa-regular,.fa-solid{
-  margin-left: 12px;
-  margin-top: 10px;
-}
+
 .bk-btn .bk-btn-triangle {
   position: relative;
   top: 13px;

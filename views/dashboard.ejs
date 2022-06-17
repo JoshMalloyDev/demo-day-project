@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="blog">
+    <div class="blog-part is-menu">
+      <a href="/" class="blog-menu">
+        Logout
+        <svg fill="none" stroke="currentColor" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-arrow-up-right" viewBox="0 0 24 24">
+          <path d="M7 17L17 7M7 7h10v10" />
+        </svg>
+      </a>
+      <a href="/music" class="blog-menu">Timer</a>
+      <a href="/recipe" class="blog-menu">Recipes</a>
+      <a href="/task" class="blog-menu">Start Task</a>
+      <a href="https://twitter.com/Josh_MalloyDev" class="blog-menu mention">@JoshuaTheDev</a>
+      <a href="#" class="blog-menu subscribe">Resilient Coders</a>
+    </div>
+    <div class="blog-header blog-is-sticky">
+      <div class="blog-article header-article">
+        <div class="blog-big__title">Self</div>
+      </div>
+      <div class="blog-article page-number">V. 01</div>
+    </div>
+    <div class="blog-header-container">
+      <div class="blog-header">
+        <div class="blog-article header-article">
+          <div class="blog-big__title">Esteem</div>
+          <div class="blog-menu small-title date">Todays Date</div>
+        </div>
+        <div class="blog-article">
+          <!-- <img class="square-art" src="placeholder.jpeg" alt="" /> -->
+          <div class="container-art">
+            <span class="date-art"></span>
+            <span class="name-art">joshua </span>
+          </div>
+
+          <div class="blog-detail">
+           
+          </div>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-down-right"
+              viewBox="0 0 24 24">
+              <path d="M15 10l5 5-5 5" />
+              <path d="M4 4v7a4 4 0 004 4h12" />
+            </svg>
+            See previous
+          </a>
+        </div>
+      </div>
+      <div class="blog-header">
+        <div class="blog-article header-article">
+          <div class="blog-big__title">Love</div>
+          <div class="blog-menu small-title date">12.06.2021</div>
+        </div>
+        <div class="blog-article">
+          <img
+            src="https://images.unsplash.com/photo-1496629062893-b0f566065d44?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjV8fGJsYWNrJTIwYW5kJTIwd2hpdGV8ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            alt="" />
+          <h2>How Many Times Did You <span>Care</span> For Yourself?</h2>
+          <div class="blog-detail"></div>
+          <p>
+            Regardless of how many tasks you've completed, you also engaged in
+            <span style="color: red; font-weight: 900">x</span> amount of
+            self-care activities this week. If you measure your success in how
+            many goals were accomplished, we challange you to see the
+            invisible, immeasurable self-care work as a success too.
+          </p>
+        </div>
+      </div>
+      <!-- <div class="blog-header">
+          <div class="blog-article header-article">
+            <div class="blog-big__title">Control</div>
+            <div class="blog-menu small-title date">12.06.2021</div>
+          </div>
+          <div class="blog-article">
+            <img
+              src="https://images.unsplash.com/photo-1616248249518-b16013cd4e42?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTkzfHxibGFjayUyMGFuZCUyMHdoaXRlfGVufDB8MHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+              alt=""
+            />
+            <h2>
+              How 2020 Changed <span>Understanding</span> Of Mental Health
+            </h2>
+            <div class="blog-detail">
+              <span>By Scarlett Witch</span>
+              <span>5 Min Read</span>
+            </div>
+            <p>
+              Time is defines ad the indefinete continued progress, with critics
+              praising Ocean's introspective lyrics and the album's
+            </p>
+            <a href="#">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-corner-down-right"
+                viewBox="0 0 24 24"
+              >
+                <path d="M15 10l5 5-5 5" />
+                <path d="M4 4v7a4 4 0 004 4h12" />
+              </svg>
+              See More
+            </a>
+          </div>
+        </div> -->
+    </div>
+    <div class="blog-part right-blog">
+      <marquee width="100%" direction="left">
+        <span>You're doing great.</span>
+        <span>Done is better than perfect.</span>
+        <span>Good Enough is Good Enough.</span>
+      </marquee>
+      <div class="blog-right-title-container">
+        <div class="blog-right-title">This Week's Tasks</div>
+      </div>
+
+
+      <div class="blog-right">
+        <div>
+         
+        </div>
+        <%for(let i=0; i<tasks.length;i++){%>
+          <div class="blog-right-container">
+            <div class="blog-title-date">
+              <div class="blog-right-page">
+                <%=i+1%>
+              </div>
+              <div class="date">
+                <%=tasks[i].dateSubmited%>
+              </div>
+            </div>
+            <div class="blog-right-page-title">
+              <%=tasks[i].task%>
+            </div>
+            <div class="blog-right-page-subtitle">
+              <%=tasks[i].selfCareData.selfCareTask%>
+                <span style="color: red; font-weight: 900"><%=tasks[i].timesCompleted%></span>
+                <%# tasks[i].amountOfTimes.taskTotalAmount %> amount of
+                  times. On average, it took you about
+                  <span style="color: red; font-weight: 900"><%=Math.floor(tasks[i].totalMinutesIttook/tasks[i].timesCompleted)%></span>
+                  minutes
+                    to complete it.
+            </div>
+          </div>
+          <%}%>
+
+
+            <div class="circle">
+              <div class="circle-title">A Message Goes Here</div>
+              <div class="circle-subtitle">
+                And probably some more text about something.
+              </div>
+              <div class="circle-footer" style="cursor: pointer">
+                Action goes here
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener("load", changeColor);
+
+    function changeColor() {
+      console.log('getting random color')
+      let randomColor = Math.floor(Math.random() * 16777215).toString(16);
+      document.querySelector(".container-art").style.background = "#" + randomColor;
+      let date = new Date()
+        .toDateString()
+        //slicing off last four letters because we dont need the year
+        .slice(0, -4);
+        console.log(date)
+      document.querySelector(".date-art").innerText = date
+    }
+
+    console.log('hey josh')
+  </script>
+  <script src="dashboard/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Enter Task</title>
+    <link rel="stylesheet" href="task.css" />
+  </head>
+  <body>
+    <form id="regForm" action="/recordTask" method="post">
+      <h1>What's your task?</h1>
+      <!-- One "tab" for each step in the form: -->
+      <div class="tab">
+        Enter your task name
+        <p>
+          <input placeholder="Task" class="full" oninput="this.className = ''" name="task" />
+        </p>
+      </div>
+      <div class="tab" id="selfCare">
+        Before you submit a task for us to store and track for you, have you
+        done any self-care tasks for yourself?
+        <p>
+          <input
+            type="checkbox"
+            oninput="this.className = ''"
+            name="didSelfCare"
+            class="check"
+            value="yes"
+          />
+          <label>Yes</label>
+          <input
+            type="checkbox"
+            oninput="this.className = ''"
+            name="didSelfCare"
+            class="check"
+            value="no"
+          />
+          <label>Nope</label>
+        </p>
+        <p>
+          <label>If yes, was it any of your previous self-care tasks?</label>
+          <select name="selfCareTask">
+            <option value="cleaned the house">cleaned the house</option>
+            <option value="went to the gym">went to the gym</option>
+            <option value="took a bath">took a bath</option>
+          </select>
+        </p>
+        <p>
+          <input
+            placeholder="If none of the above, what'd you do?"
+            oninput="this.className = ''"
+            name="newSelfCareTask"
+            class="selfCareInput"
+
+          />
+        </p>
+      </div>
+      <div style="overflow: auto">
+        <div style="float: right">
+          <button type="button" id="prevBtn" onclick="nextPrev(-1)">
+            Previous
+          </button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+      </div>
+      <!-- Circles which indicates the steps of the form: -->
+      <div style="text-align: center; margin-top: 40px">
+        <span class="step"></span>
+        <span class="step"></span>
+      </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="task.js"></script>
+  </body>
+</html>

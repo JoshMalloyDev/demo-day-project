@@ -50,34 +50,12 @@ module.exports = function (app, passport, db) {
     });
 
     app.get('/recipe', isLoggedIn, function (req, res) {
-        db.collection('recipeSelectionHistory').find().toArray((err, randomSelection) => { //getting the current hour 
-            console.log(randomSelection, "test randomSelection")
-            const currentDate = new Date().getHours()
-            const filteredArr = randomSelection.filter((recipe) => {
-                console.log(currentDate, "current date")
-                console.log(recipe, 'recipe')
-                if(currentDate < 12 && currentDate >= 1){
-                    if(recipe.randomMeal.whatTimeIsIt === 'breakfast'){
-                        return recipe
-                    }
-                } else if(currentDate >=12 && currentDate < 5){
-                    if(recipe.randomMeal.whatTimeIsIt === 'lunch'){
-                        return recipe
-                    }
-                    
-                } else if (currentDate >=5 && currentDate <= 24){
-                    if(recipe.randomMeal.whatTimeIsIt === 'dinner'){
-                        return recipe
-                    }
-                }
-            })
-            const randomIndex = Math.floor(Math.random() * filteredArr.length) 
+        db.collection('recipeSelectionHistory').find().toArray((err, randomSelection) => {
+            console.log(randomSelection, "test")
+            const randomIndex = Math.floor(Math.random() * randomSelection.length) 
 
-            console.log(filteredArr,"cats")
-        
-        
             res.render('recipe.ejs', {
-                randomMeal: filteredArr[randomIndex].randomMeal
+                randomMeal: randomSelection[randomIndex].randomMeal
                 // logic is broken somewhere. 
             });
         })
@@ -136,28 +114,13 @@ module.exports = function (app, passport, db) {
             res.redirect('/recipe')
         })
     })
-    app.put('/postTask', isLoggedIn, (req, res) => {
-        let minutes = Number(req.body.timerAmount)
+    app.post('/postTask', isLoggedIn, (req, res) => {
         console.log({completedTask: req.body, userEmail: req.user.local.email})
-        db.collection('tasks').findOneAndUpdate({user: req.user.local.email, task:req.body.task },
-            {
-            $inc:{
-                timesCompleted:1, 
-                totalMinutesIttook:minutes
-            } ,
-        },
-            // {
-            //     $set:{
-            //         avarageTime:Math.floor(minutes/timesCompleted)
-            //     }
-            // },
-           
-        )
-       
-           
+        db.collection('completedTask').insertOne({userEmail: req.user.local.email, timerAmount: req.body.timerAmount, task:req.body.task }, (err, result) => {
+            if (err) return console.log(err)
             console.log('saved to completed task')
             // res.redirect('/recipe')
-        
+        })
     })
     app.post('/recordTask', isLoggedIn, (req, res) => {
 
@@ -168,11 +131,8 @@ module.exports = function (app, passport, db) {
             selfCareData: {
                 didSelfCare: req.body.didSelfCare,
                 selfCareTask: req.body.selfCareTask,
-                newSelfCare: req.body.newSelfCare 
-            },
-            timesCompleted:0, 
-            totalMinutesIttook:0
-
+                newSelfCare: req.body.newSelfCare
+            }
         }, (err, result) => {
             if (err) return console.log(err)
             console.log('saved to database')
