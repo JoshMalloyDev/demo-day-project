@@ -582,7 +582,7 @@ marquee span:before {
   }
 }
 .container-art {
-  width: 400px;
+  width: 430px;
   height: 300px;
   display: flex;
   flex-direction: column;
@@ -599,15 +599,13 @@ marquee span:before {
   font-size: 6.5em;
   mix-blend-mode: difference;
   filter: drop-shadow(0.1em 0.55em 1px orange);
-  position: absolute;
-  top: 3.5em;
+  margin-top:50px;
 }
 
 .date-art {
   font-style: italic;
   color: white;
-  position: absolute;
-  top: 11.5em;
+  margin-top:-6em;
   mix-blend-mode: difference;
   font-family: monospace;
   font-weight: 900;

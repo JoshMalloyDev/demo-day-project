@@ -92,3 +92,126 @@ const postTask = (e) => {
   })
 }
 document.querySelector(".start").addEventListener("click", postTask);
+document.querySelector(".startWalk").addEventListener("click", travelTime)
+let distanceArray = []
+let timerId
+function travelTime(){
+  console.log('Hit')
+  const status = document.querySelector(".locationString")
+  function success(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+  
+    console.log('lat:', latitude, 'long:', longitude)
+  
+    // status.textContent = `Found you! current latitude: ${latitude}°, current longitude: ${longitude}°`;
+   
+    distanceArray.push({ latitude: latitude, longitude: longitude })
+  }
+  function error() {
+    status.textContent = 'Unable to retrieve your location';
+}
+ //if there is no geolocation API, then send this msg
+ if (!navigator.geolocation) {
+  status.textContent = 'Geolocation is not supported by your browser';
+} else {
+  //if there is a location, then we will automatically run and get the current position of every 3 seconds
+  timerId = setInterval(() => {
+      status.textContent = 'Locating…';
+      //telling it to start tracking
+      navigator.geolocation.getCurrentPosition(success, error, options);
+      console.log(distanceArray,)
+  }, 3000)
+}
+//getCurrentPosition needs this passed into it
+options = {
+  enableHighAccuracy: false,
+  timeout: 5000,
+  //the position you find acceptable to return
+  maximumAge: 0
+};
+}
+function distance(lat1, lat2, lon1, lon2) {
+
+  // The math module contains a function
+  // named toRadians which converts from
+  // degrees to radians.
+  lon1 = lon1 * Math.PI / 180;
+  lon2 = lon2 * Math.PI / 180;
+  lat1 = lat1 * Math.PI / 180;
+  lat2 = lat2 * Math.PI / 180;
+
+  // Haversine formula
+  let dlon = lon2 - lon1;
+  let dlat = lat2 - lat1;
+  let a = Math.pow(Math.sin(dlat / 2), 2)
+      + Math.cos(lat1) * Math.cos(lat2)
+      * Math.pow(Math.sin(dlon / 2), 2);
+
+  let c = 2 * Math.asin(Math.sqrt(a));
+
+  // Radius of earth in miles
+  let r = 3956;
+
+  // calculate the result
+  return (c * r);
+}
+document.querySelector('.stopWalk').addEventListener('click', () => {
+  //distanceArr has all of the coordinates as objects, in pairs as lat and long
+  //we're passing the current pair and grabbing the lat
+  // then we're telling it to referecne the distanceArr and use the currentidex that we're all, and then add one to it
+
+  let distanceCollection = []
+
+  //looping through the global array and setting safety checks to ensure that there is always more than one coordinate pair inside of the array and that we arent at the last set of coordinates
+  let correctSize = distanceArray.length > 1
+  if (correctSize) {
+      distanceArray.forEach((currentValue, currentIndex) => {
+          let notLastEntry = currentIndex + 1 != distanceArray.length
+          if (notLastEntry) {
+              // calcute the difference between the two points
+              let deltaDistance = distance(
+                  //grabbing the latitude of the object inside of the array
+                  currentValue.latitude,
+                  //grabing the latitude of the next object inside of the array
+                  distanceArray[currentIndex + 1].latitude,
+                  //doing the same thing as it did with the first latitude  
+                  currentValue.longitude,
+                  //doing the same thing as it did with the second latitude 
+                  distanceArray[currentIndex + 1].longitude
+              )
+              distanceCollection.push(deltaDistance)
+          }
+      }
+      )
+  }
+  // going through the distanceCollection array and combining the values and sum of the distance collection
+  //totalSum is the accumalator, looping through the array
+  //currentValue will be the first entry of the array
+  let totalDistance = distanceCollection.reduce((totalSum, currentValue) => totalSum + currentValue)
+  console.log('totalDistance:', totalDistance)
+  //we are stopping the timer loop 
+  clearInterval(timerId)
+  //getting todays current date
+  const distanceWalked = document.querySelector('.locationString')
+  if ( totalDistance < 0.25){
+  distanceWalked.textContent = `you walked: ${Math.floor(totalDistance * 5280)} feet,`;
+
+  }else {distanceWalked.textContent = `you walked: ${Math.floor(totalDistance )} miles,`; }
+
+  // send total desiance in miles times number of feet in mille 5280
+  // i want to send that to ejs in the location string
+  // if distance is more than a 0.25 send totalDistanice miles 
+  
+  
+
+  
+    })
+// todo list
+// impliment 85 through 143 the trigger for that block of code needs to be the stop walk
+// it will depend on what state it is in it can be a toggle or two buttons
+// use 146 though 155 as frame work to impliment the button toggleing 
+// ignore 158 through 185
+//
+
+

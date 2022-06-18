@@ -3,7 +3,7 @@
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-size: 12px;
   line-height: 1em;
 }
@@ -21,41 +21,43 @@ input {
   padding: 0;
   border: 0;
   outline: 0;
+  font-family: monospace;
+
 }
 input[type="submit"] {
   cursor: pointer;
 }
 input::-webkit-input-placeholder {
   font-size: 0.85rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-weight: 300;
   letter-spacing: 0.1rem;
   color: #ccc;
 }
 input::-moz-placeholder {
   font-size: 0.85rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-weight: 300;
   letter-spacing: 0.1rem;
   color: #ccc;
 }
 input:-ms-input-placeholder {
   font-size: 0.85rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-weight: 300;
   letter-spacing: 0.1rem;
   color: #ccc;
 }
 input::-ms-input-placeholder {
   font-size: 0.85rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-weight: 300;
   letter-spacing: 0.1rem;
   color: #ccc;
 }
 input::placeholder {
   font-size: 0.85rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-weight: 300;
   letter-spacing: 0.1rem;
   color: #ccc;
@@ -154,7 +156,7 @@ input::placeholder {
   align-items: center;
   width: 100%;
   height: 100vh;
-  background-color: rgb(32 50 159);
+  background-color: #804b0f;
 }
 .user_options-container {
   position: relative;
@@ -179,8 +181,7 @@ input::placeholder {
   padding: 75px 45px;
   color: #fff;
   font-weight: 300;
-  background: rgb(255 206 76 / 92%);
-  border: 2px solid black;
+  background: #787217;
   border-radius: 5px;
 }
 
@@ -200,8 +201,9 @@ input::placeholder {
 .user_registered-login,
 .user_unregistered-signup {
   margin-top: 30px;
-  border: 2px solid #000;
   background-color: white;
+  font-family: monospace;
+
   border-radius: 3px;
   padding: 10px 30px;
   color: #000;
@@ -226,8 +228,7 @@ input::placeholder {
   left: 30px;
   width: calc(50% - 30px);
   min-height: 500px;
-  border: 2px solid black;
-  background-color: rgb(74 158 100);
+  background-color: rgb(62, 99, 67);
   border-radius: 5px;
   box-shadow: 2px 0 15px rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -258,7 +259,7 @@ input::placeholder {
   width: 100%;
   border-bottom: 1px solid #ccc;
   padding: 6px 20px 6px 6px;
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-size: 1rem;
   font-weight: 300;
   color: gray;
@@ -279,7 +280,7 @@ input::placeholder {
   margin-top: 35px;
 }
 .user_options-forms .forms_buttons-forgot {
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   letter-spacing: 0.1rem;
   color: #ccc;
   text-decoration: underline;
@@ -294,7 +295,7 @@ input::placeholder {
   border-radius: 3px;
   padding: 10px 35px;
   font-size: 1rem;
-  font-family: "Montserrat", sans-serif;
+  font-family: monospace;
   font-weight: 300;
   color: #fff;
   text-transform: uppercase;
@@ -308,6 +309,7 @@ input::placeholder {
 .user_options-forms .user_forms-signup,
 .user_options-forms .user_forms-login {
   position: absolute;
+  background: rgb(112 54 54);
   top: 70px;
   left: 40px;
   width: calc(100% - 80px);
@@ -325,7 +327,6 @@ input::placeholder {
 .user_options-forms .user_forms-signup {
   -webkit-transform: translate3d(120px, 0, 0);
   transform: translate3d(120px, 0, 0);
-  border: 2px solid black;
 }
 .user_options-forms .user_forms-signup .forms_buttons {
   -webkit-box-pack: end;
@@ -336,8 +337,7 @@ input::placeholder {
   transform: translate3d(0, 0, 0);
   opacity: 1;
   visibility: visible;
-  background-color: rgb(66 194 198);
-  border: 2px solid black;
+  background-color: rgb(112 54 54);
 }
 
 /**
@@ -394,7 +394,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
   background: linear-gradient(#141e30, #243b55);
 }
 
@@ -416,6 +415,7 @@ body {
   padding: 0;
   color: #fff;
   text-align: center;
+  font-family: "Open Sans", Futura, Helvetica, Arial, sans-serif;
 }
 
 .login-box .user-box {
@@ -457,6 +457,8 @@ body {
   display: inline-block;
   padding: 10px 20px;
   color: #ffffff;
+  font-family: monospace;
+
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -562,8 +564,9 @@ button{
 }
 
 h2 {
-  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-width: 1.5px;
   -webkit-text-stroke-color: black;
+  font-family: "Open Sans", Futura, Helvetica, Arial, sans-serif;
 }
 
 .box_title {

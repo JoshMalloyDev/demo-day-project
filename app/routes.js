@@ -20,33 +20,31 @@ module.exports = function (app, passport, db) {
 
         });
     });
-    // app.get('/profile', isLoggedIn, function(req, res) {
-    //        console.log(db)
-    //         db.collection('messages').find().toArray((err, result) => {
-    //           if (err) return console.log(err)
-    //           res.render('profile.ejs', {
-    //             user : req.user,
-    //             messages: result
-    //           })
-    //         })
-    //     });
+
 
     app.get('/dashboard', isLoggedIn, function (req, res) {
-         db.collection('tasks').find({ // these values are not being set by the code
+        db.collection('tasks').find({ // these values are not being set by the code
             user: req.user.local.email
         }).toArray((err, tasks) => {
-            console.log("get little task", tasks)
-               
-             db.collection('completedTask').find({
+
+            db.collection('completedTask').find({
                 userEmail: req.user.local.email
             }).toArray((err, completedTasks) => {
-                console.log("the big task", completedTasks)
+
+                let selfCareCount = 0
+                tasks.forEach((task) => {
+                    selfCareCount += task.selfCareData.amountOfTimesDone
+                })
+
+                console.log(selfCareCount, 'final count, 1')
                 res.render('dashboard.ejs', {
                     tasks: tasks,
-                    completedTask: completedTasks
-                });  
-            });  
-        });   
+                    completedTask: completedTasks,
+                    user: req.user,
+                    selfCareCount: selfCareCount
+                });
+            });
+        });
     });
 
     app.get('/recipe', isLoggedIn, function (req, res) {
@@ -56,26 +54,26 @@ module.exports = function (app, passport, db) {
             const filteredArr = randomSelection.filter((recipe) => {
                 console.log(currentDate, "current date")
                 console.log(recipe, 'recipe')
-                if(currentDate < 12 && currentDate >= 1){
-                    if(recipe.randomMeal.whatTimeIsIt === 'breakfast'){
+                if (currentDate < 12 && currentDate >= 1) {
+                    if (recipe.randomMeal.whatTimeIsIt === 'breakfast') {
                         return recipe
                     }
-                } else if(currentDate >=12 && currentDate < 5){
-                    if(recipe.randomMeal.whatTimeIsIt === 'lunch'){
+                } else if (currentDate >= 12 && currentDate < 5) {
+                    if (recipe.randomMeal.whatTimeIsIt === 'lunch') {
                         return recipe
                     }
-                    
-                } else if (currentDate >=5 && currentDate <= 24){
-                    if(recipe.randomMeal.whatTimeIsIt === 'dinner'){
+
+                } else if (currentDate >= 5 && currentDate <= 24) {
+                    if (recipe.randomMeal.whatTimeIsIt === 'dinner') {
                         return recipe
                     }
                 }
             })
-            const randomIndex = Math.floor(Math.random() * filteredArr.length) 
+            const randomIndex = Math.floor(Math.random() * filteredArr.length)
 
-            console.log(filteredArr,"cats")
-        
-        
+            console.log(filteredArr, "cats")
+
+
             res.render('recipe.ejs', {
                 randomMeal: filteredArr[randomIndex].randomMeal
                 // logic is broken somewhere. 
@@ -100,7 +98,7 @@ module.exports = function (app, passport, db) {
             });
         });
     });
-    app.get('/features', isLoggedIn, function (req, res) {
+    app.get('/features', function (req, res) {
         res.render('features.ejs')
 
     });
@@ -108,17 +106,7 @@ module.exports = function (app, passport, db) {
 
 
 
-    // PROFILE SECTION =========================
-    // app.get('/profile', isLoggedIn, function(req, res) {
-    //   // console.log(db)
-    //     db.collection('messages').find().toArray((err, result) => {
-    //       if (err) return console.log(err)
-    //       res.render('profile.ejs', {
-    //         user : req.user,
-    //         messages: result
-    //       })
-    //     })
-    // });
+
 
     // LOGOUT ==============================
     app.get('/logout', function (req, res) {
@@ -130,7 +118,7 @@ module.exports = function (app, passport, db) {
 
     app.post('/submitRecipes', isLoggedIn, (req, res) => {
 
-        db.collection('recipes').insertOne({ recipeDataForServer: req.body.recipeDataForServer }, (err, result) => {
+        db.collection('recipes').insertOne({ recipeDataForServer: req.body.recipeDataForServer, email: req.user.local.email }, (err, result) => {
             if (err) return console.log(err)
             console.log('saved to database')
             res.redirect('/recipe')
@@ -138,26 +126,27 @@ module.exports = function (app, passport, db) {
     })
     app.put('/postTask', isLoggedIn, (req, res) => {
         let minutes = Number(req.body.timerAmount)
-        console.log({completedTask: req.body, userEmail: req.user.local.email})
-        db.collection('tasks').findOneAndUpdate({user: req.user.local.email, task:req.body.task },
+        console.log({ completedTask: req.body, userEmail: req.user.local.email })
+        db.collection('tasks').findOneAndUpdate({ user: req.user.local.email, task: req.body.task },
             {
-            $inc:{
-                timesCompleted:1, 
-                totalMinutesIttook:minutes
-            } ,
-        },
+                $inc: {
+                    timesCompleted: 1,
+                    totalMinutesIttook: minutes,
+                    'selfCareData.amountOfTimesDone': 1
+                },
+            },
             // {
             //     $set:{
             //         avarageTime:Math.floor(minutes/timesCompleted)
             //     }
             // },
-           
+
         )
-       
-           
-            console.log('saved to completed task')
-            // res.redirect('/recipe')
-        
+
+
+        console.log('saved to completed task')
+        // res.redirect('/recipe')
+
     })
     app.post('/recordTask', isLoggedIn, (req, res) => {
 
@@ -168,10 +157,11 @@ module.exports = function (app, passport, db) {
             selfCareData: {
                 didSelfCare: req.body.didSelfCare,
                 selfCareTask: req.body.selfCareTask,
-                newSelfCare: req.body.newSelfCare 
+                amountOfTimesDone: 0,
+                newSelfCare: req.body.newSelfCare
             },
-            timesCompleted:0, 
-            totalMinutesIttook:0
+            timesCompleted: 0,
+            totalMinutesIttook: 0
 
         }, (err, result) => {
             if (err) return console.log(err)
@@ -196,7 +186,8 @@ module.exports = function (app, passport, db) {
             let randomMeal = potentialMeals[randomNum]
             console.log(randomMeal, 'is this right')
             db.collection('recipeSelectionHistory').insertOne({
-                randomMeal: randomMeal.recipeDataForServer
+                randomMeal: randomMeal.recipeDataForServer,
+                email: req.user.local.email
             })
             res.send({
 

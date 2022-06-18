@@ -35,17 +35,19 @@
       <div class="blog-header">
         <div class="blog-article header-article">
           <div class="blog-big__title">Esteem</div>
-          <div class="blog-menu small-title date">Todays Date</div>
+          <div class="blog-menu small-title date">
+            <%= new Date().toLocaleDateString()%>
+          </div>
         </div>
         <div class="blog-article">
           <!-- <img class="square-art" src="placeholder.jpeg" alt="" /> -->
           <div class="container-art">
             <span class="date-art"></span>
-            <span class="name-art">joshua </span>
+            <span class="name-art"><%=user.local.email%> </span>
           </div>
 
           <div class="blog-detail">
-           
+
           </div>
           <a href="#">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
@@ -61,7 +63,9 @@
       <div class="blog-header">
         <div class="blog-article header-article">
           <div class="blog-big__title">Love</div>
-          <div class="blog-menu small-title date">12.06.2021</div>
+          <div class="blog-menu small-title date">
+            <%= new Date().toLocaleDateString()%>
+          </div>
         </div>
         <div class="blog-article">
           <img
@@ -71,7 +75,9 @@
           <div class="blog-detail"></div>
           <p>
             Regardless of how many tasks you've completed, you also engaged in
-            <span style="color: red; font-weight: 900">x</span> amount of
+            <span style="color: red; font-weight: 900">
+              <%=selfCareCount%>
+            </span> amount of
             self-care activities this week. If you measure your success in how
             many goals were accomplished, we challange you to see the
             invisible, immeasurable self-care work as a success too.
@@ -120,7 +126,7 @@
     </div>
     <div class="blog-part right-blog">
       <marquee width="100%" direction="left">
-        <span>You're doing great.</span>
+        <span>You're doing great, <%= user.local.email %>.</span>
         <span>Done is better than perfect.</span>
         <span>Good Enough is Good Enough.</span>
       </marquee>
@@ -131,7 +137,7 @@
 
       <div class="blog-right">
         <div>
-         
+
         </div>
         <%for(let i=0; i<tasks.length;i++){%>
           <div class="blog-right-container">
@@ -147,13 +153,17 @@
               <%=tasks[i].task%>
             </div>
             <div class="blog-right-page-subtitle">
-              <%=tasks[i].selfCareData.selfCareTask%>
-                <span style="color: red; font-weight: 900"><%=tasks[i].timesCompleted%></span>
-                <%# tasks[i].amountOfTimes.taskTotalAmount %> amount of
-                  times. On average, it took you about
-                  <span style="color: red; font-weight: 900"><%=Math.floor(tasks[i].totalMinutesIttook/tasks[i].timesCompleted)%></span>
-                  minutes
-                    to complete it.
+              In total, you've completed this task
+              <span style="color: red; font-weight: 900">
+                <%=tasks[i].timesCompleted%>
+              </span>
+
+              times successfully. On average, it took you about
+              <span style="color: red; font-weight: 900">
+                <%=Math.floor(tasks[i].totalMinutesIttook /tasks[i].timesCompleted)%>
+              </span>
+              minutes
+              to complete it.
             </div>
           </div>
           <%}%>
@@ -182,7 +192,7 @@
         .toDateString()
         //slicing off last four letters because we dont need the year
         .slice(0, -4);
-        console.log(date)
+      console.log(date)
       document.querySelector(".date-art").innerText = date
     }
 
