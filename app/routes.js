@@ -1,8 +1,5 @@
-const mongoose = require('mongoose')
-const passport = require('passport')
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
-require('dotenv').config();
+
+const ObjectId = require("mongodb").ObjectId;
 
 module.exports = function (app, passport, db) {
 
@@ -20,6 +17,24 @@ module.exports = function (app, passport, db) {
         });
     });
 
+    app.get('/manage', isLoggedIn, function (req, res) {
+        db.collection('tasks').find({ user: req.user.local.email }).toArray((err, tasks) => {
+
+
+            res.render('manage.ejs', {
+                email: req.user.local.email,
+                tasks
+            })
+        });
+    });
+
+    app.delete('/deleteTask', (req, res) => {
+        console.log(req.body.id, req.user.local.email)
+        db.collection('tasks').deleteOne({ _id: ObjectId(req.body.id)}, (err, result) => {
+          if (err) return res.send(500, err)
+          res.send('task deleted!')
+        })
+      })
 
     app.get('/dashboard', isLoggedIn, function (req, res) {
         db.collection('tasks').find({ // these values are not being set by the code
@@ -46,20 +61,18 @@ module.exports = function (app, passport, db) {
     });
 
     app.get('/recipe', isLoggedIn, function (req, res) {
-        db.collection('recipeSelectionHistory').find({email: req.user.local.email}).toArray((err, randomSelection) => { //getting the current hour 
-            const currentDate = new Date().getHours()
+        db.collection('recipeSelectionHistory').find({ email: req.user.local.email }).toArray((err, randomSelection) => { //getting the current hour 
+            const currentHour = new Date().getHours()
             const filteredArr = randomSelection.filter((recipe) => {
-                console.log({ currentDate })
-                console.log(recipe.randomMeal.whatTimeIsIt, 'what is in filter')
-                if (currentDate < 12 && currentDate >= 1) {
+                if (currentHour <= 11 && currentHour >= 1) {
                     if (recipe.randomMeal.whatTimeIsIt === 'breakfast') {
                         return recipe
                     }
-                } else if (currentDate >= 12 && currentDate < 17) {
+                } else if (currentHour >= 12 && currentHour < 17) {
                     if (recipe.randomMeal.whatTimeIsIt === 'lunch') {
                         return recipe
                     }
-                } else if (currentDate >= 17 && currentDate <= 24) {
+                } else if (currentHour >= 17 && currentHour <= 24) {
                     if (recipe.randomMeal.whatTimeIsIt === 'dinner') {
                         return recipe
                     }
@@ -67,7 +80,6 @@ module.exports = function (app, passport, db) {
             })
             const randomIndex = Math.floor(Math.random() * filteredArr.length)
 
-            console.log(filteredArr, randomIndex, "cats")
 
             res.render('recipe.ejs', {
                 randomMeal: filteredArr[randomIndex].randomMeal
@@ -159,6 +171,7 @@ module.exports = function (app, passport, db) {
             let potentialMeals = recipes.filter(recipe => whatTimeIsIt === recipe.recipeDataForServer.whatTimeIsIt)
             let randomNum = Math.floor(Math.random() * potentialMeals.length)
             let randomMeal = potentialMeals[randomNum]
+            console.log(randomMeal, 'random')
 
             db.collection('recipeSelectionHistory').insertOne({
                 randomMeal: randomMeal.recipeDataForServer,
