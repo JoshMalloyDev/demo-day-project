@@ -125,8 +125,8 @@ details[open] summary::after {
   content: "×";
   font-size: 40pt;
   position: fixed;
-  right: calc((42vw - 180px) - 2em);
-  top: calc((45vh - 120px) - 2em);
+  right: calc((34vw - 180px) - 2em);
+  top: calc((39vh - 120px) - 2em);
   padding: 5pt 10pt;
   z-index: 9;
 }

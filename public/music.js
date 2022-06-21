@@ -103,8 +103,6 @@ function travelTime(){
     const longitude = position.coords.longitude;
   
     console.log('lat:', latitude, 'long:', longitude)
-  
-    // status.textContent = `Found you! current latitude: ${latitude}°, current longitude: ${longitude}°`;
    
     distanceArray.push({ latitude: latitude, longitude: longitude })
   }
@@ -115,13 +113,13 @@ function travelTime(){
  if (!navigator.geolocation) {
   status.textContent = 'Geolocation is not supported by your browser';
 } else {
-  //if there is a location, then we will automatically run and get the current position of every 3 seconds
+  //if there is a location, then we will automatically run and get the current position of every 2 seconds
   timerId = setInterval(() => {
       status.textContent = 'Locating…';
       //telling it to start tracking
       navigator.geolocation.getCurrentPosition(success, error, options);
       console.log(distanceArray,)
-  }, 3000)
+  }, 2000)
 }
 //getCurrentPosition needs this passed into it
 options = {
@@ -202,16 +200,6 @@ document.querySelector('.stopWalk').addEventListener('click', () => {
   // send total desiance in miles times number of feet in mille 5280
   // i want to send that to ejs in the location string
   // if distance is more than a 0.25 send totalDistanice miles 
-  
-  
-
-  
     })
-// todo list
-// impliment 85 through 143 the trigger for that block of code needs to be the stop walk
-// it will depend on what state it is in it can be a toggle or two buttons
-// use 146 though 155 as frame work to impliment the button toggleing 
-// ignore 158 through 185
-//
 
 

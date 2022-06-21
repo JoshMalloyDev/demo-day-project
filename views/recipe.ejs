@@ -55,18 +55,15 @@
           <summary class="button">Choose a meal for me</summary>
                   
           <div>
-            <%console.log(randomMeal)%>
-           <h2>It's <%=randomMeal.whatTimeIsIt%> time, so we think you should eat <%=randomMeal.recipeTitle%></h2>
-           
-            <p>Here are the steps to make it</p>
-            <ol>
-              <% for (let i = 0; i<randomMeal.steps.length; i++){%>
-                <li><%= randomMeal.steps[i]%></li>
-               <%}%> 
-              
-              <li> 
-            </ol>
-          </div>
+            <h2>It's <%=randomMeal.whatTimeIsIt%> time, so we think you should eat <%=randomMeal.recipeTitle%></h2>
+             <p>Here are the steps to make it</p>
+             <ol>
+               <% for (let i = 0; i<randomMeal.steps.length; i++){%>
+                 <li><%= randomMeal.steps[i]%></li>
+                <%}%>
+               <li>
+             </ol>
+           </div>     
           </details>
  
 <script src="recipes.js"></script>

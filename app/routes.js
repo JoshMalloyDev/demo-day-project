@@ -14,7 +14,6 @@ module.exports = function (app, passport, db) {
     });
 
     app.get('/profile', isLoggedIn, function (req, res) {
-        console.log(req.user)
         res.render('profile.ejs', {
             email: req.user.local.email
 
@@ -36,7 +35,6 @@ module.exports = function (app, passport, db) {
                     selfCareCount += task.selfCareData.amountOfTimesDone
                 })
 
-                console.log(selfCareCount, 'final count, 1')
                 res.render('dashboard.ejs', {
                     tasks: tasks,
                     completedTask: completedTasks,
@@ -48,22 +46,20 @@ module.exports = function (app, passport, db) {
     });
 
     app.get('/recipe', isLoggedIn, function (req, res) {
-        db.collection('recipeSelectionHistory').find().toArray((err, randomSelection) => { //getting the current hour 
-            console.log(randomSelection, "test randomSelection")
+        db.collection('recipeSelectionHistory').find({email: req.user.local.email}).toArray((err, randomSelection) => { //getting the current hour 
             const currentDate = new Date().getHours()
             const filteredArr = randomSelection.filter((recipe) => {
-                console.log(currentDate, "current date")
-                console.log(recipe, 'recipe')
+                console.log({ currentDate })
+                console.log(recipe.randomMeal.whatTimeIsIt, 'what is in filter')
                 if (currentDate < 12 && currentDate >= 1) {
                     if (recipe.randomMeal.whatTimeIsIt === 'breakfast') {
                         return recipe
                     }
-                } else if (currentDate >= 12 && currentDate < 5) {
+                } else if (currentDate >= 12 && currentDate < 17) {
                     if (recipe.randomMeal.whatTimeIsIt === 'lunch') {
                         return recipe
                     }
-
-                } else if (currentDate >= 5 && currentDate <= 24) {
+                } else if (currentDate >= 17 && currentDate <= 24) {
                     if (recipe.randomMeal.whatTimeIsIt === 'dinner') {
                         return recipe
                     }
@@ -71,8 +67,7 @@ module.exports = function (app, passport, db) {
             })
             const randomIndex = Math.floor(Math.random() * filteredArr.length)
 
-            console.log(filteredArr, "cats")
-
+            console.log(filteredArr, randomIndex, "cats")
 
             res.render('recipe.ejs', {
                 randomMeal: filteredArr[randomIndex].randomMeal
@@ -84,29 +79,20 @@ module.exports = function (app, passport, db) {
         res.render('task.ejs');
     });
 
-
-
-
     app.get('/music', isLoggedIn, function (req, res) {
         db.collection('tasks').find({
             user: req.user.local.email
         }).toArray((err, tasks) => {
-            console.log("get music", tasks)
 
             res.render('music.ejs', {
                 tasks: tasks
             });
         });
     });
-    app.get('/features', function (req, res) {
+    app.get('/features', isLoggedIn, function (req, res) {
         res.render('features.ejs')
 
     });
-
-
-
-
-
 
     // LOGOUT ==============================
     app.get('/logout', function (req, res) {
@@ -126,7 +112,6 @@ module.exports = function (app, passport, db) {
     })
     app.put('/postTask', isLoggedIn, (req, res) => {
         let minutes = Number(req.body.timerAmount)
-        console.log({ completedTask: req.body, userEmail: req.user.local.email })
         db.collection('tasks').findOneAndUpdate({ user: req.user.local.email, task: req.body.task },
             {
                 $inc: {
@@ -135,21 +120,10 @@ module.exports = function (app, passport, db) {
                     'selfCareData.amountOfTimesDone': 1
                 },
             },
-            // {
-            //     $set:{
-            //         avarageTime:Math.floor(minutes/timesCompleted)
-            //     }
-            // },
-
         )
-
-
         console.log('saved to completed task')
-        // res.redirect('/recipe')
-
     })
     app.post('/recordTask', isLoggedIn, (req, res) => {
-
         db.collection('tasks').insertOne({
             user: req.user.local.email,
             task: req.body.task,
@@ -170,68 +144,28 @@ module.exports = function (app, passport, db) {
         })
     })
     app.post('/getMeal', (req, res) => {
-
         db.collection('recipes').find().toArray((err, recipes) => {
             if (err) return console.log(err)
-            console.log('saved to database')
+
             let breakfastHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
             let lunchHours = [12, 13, 14, 15, 16, 17]; // breaking up the hours of the day
             let dinnerHours = [18, 19, 20, 21, 22, 23, 24];
             let whatTimeIsIt = ""
+
             if (breakfastHours.includes(req.body.currentHour)) whatTimeIsIt += "breakfast";
             if (lunchHours.includes(req.body.currentHour)) whatTimeIsIt += "lunch";
             if (dinnerHours.includes(req.body.currentHour)) whatTimeIsIt += "dinner";
+
             let potentialMeals = recipes.filter(recipe => whatTimeIsIt === recipe.recipeDataForServer.whatTimeIsIt)
             let randomNum = Math.floor(Math.random() * potentialMeals.length)
             let randomMeal = potentialMeals[randomNum]
-            console.log(randomMeal, 'is this right')
+
             db.collection('recipeSelectionHistory').insertOne({
                 randomMeal: randomMeal.recipeDataForServer,
                 email: req.user.local.email
             })
-            res.send({
-
-            })
         })
     })
-
-    // app.put('/messages', (req, res) => {
-    //   db.collection('messages')
-    //   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-    //     $set: {
-    //       thumbUp:req.body.likes + 1
-    //     }
-    //   }, {
-    //     sort: {_id: -1},
-    //     upsert: true
-    //   }, (err, result) => {
-    //     if (err) return res.send(err)
-    //     res.send(result)
-    //   })
-    // })
-
-    // app.put('/thumbsDown', (req, res) => {
-    //   console.log(req.body)
-    //   db.collection('messages')
-    //   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-    //     $set: {
-    //       thumbUp:req.body.likes - 1
-    //     }
-    //   }, {
-    //     sort: {_id: -1},
-    //     upsert: true
-    //   }, (err, result) => {
-    //     if (err) return res.send(err)
-    //     res.send(result)
-    //   })
-    // })
-
-    // app.delete('/messages', (req, res) => {
-    //   db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
-    //     if (err) return res.send(500, err)
-    //     res.send('Message deleted!')
-    //   })
-    // })
 
     // =============================================================================
     // AUTHENTICATE (FIRST LOGIN) ==================================================
