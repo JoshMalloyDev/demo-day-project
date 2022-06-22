@@ -11,8 +11,10 @@
   <div class="timer">
     <div class="page-header">name, Lets get focused</div>
     <div class="actions">
+     
       <label>your tasks</label>
       <select name="test" id="testTwo">
+      
 
 
         <% for(let i=0; i<tasks.length; i++){%>
@@ -35,12 +37,14 @@
             figure out how to save the data will it be on the users account in mongoDB
             <input type="number" class="minutes" placeholder="minutes" />
             <button class="start">start</button>
-            <button class="startWalk" >pause timer<i class="fa-solid fa-play-pause"></i></button>
-            <button class="stopWalk" >resume timer<i class="fa-solid fa-play-pause"></i></button>
+            <button class="pauseWalk" >pause timer<i class="fa-solid fa-play-pause"></i></button>
+            <button class="resumeWalk" style="display:none" >resume timer<i class="fa-solid fa-play-pause"></i></button>
 
             <p class="locationString"></p>
     </div>
-
+    <div id="myProgress">
+      <div id="myBar"></div>
+    </div>
     <div class="clock">
       <div class="hour"></div>
       <div class="min"></div>

@@ -1,31 +1,49 @@
-document.querySelector(".start").addEventListener("click", launchTimer);
-
-function launchTimer() {
+document.querySelector(".start").addEventListener("click", (e) => launchTimer());
+// if startTime is running equal to running
+// then pause time is equal to 
+// 
+// 
+let timerAmount
+let startTime
+let pauseTime
+let audioChosen
+let timeoutid
+let timerPaused = false
+function launchTimer(secondsLeft = 0) {
+  console.log(secondsLeft)
+  timerPaused = false
   // we'll store date in the databasee so we're tracking when someone times a task
   let date = new Date().toLocaleDateString();
   // grabbing the input number from client
-  let timerAmount = document.querySelector(".minutes").value * 60 * 1000;
+  if (secondsLeft === 0) {
 
-  // creating an array of focus music to select from
-  let sample1 = new Audio("sample1.mp3");
-  let sample2 = new Audio("sample2.mp3");
-  let sample3 = new Audio("sample3.mp3");
-  let sample4 = new Audio("sample4.mp3");
-  let musicArray = [sample1, sample2, sample3, sample4];
+    timerAmount = document.querySelector(".minutes").value * 60 * 1000;
+    secondsLeft = timerAmount
 
-  // creating a random number thats used as the index for the array
-  let randomNum = Math.floor(Math.random() * timerAmount);
-  let soundSelection = randomNum % musicArray.length;
-  let audioChosen = musicArray[soundSelection];
 
+    startTime = (new Date()).getTime()
+
+    // creating an array of focus music to select from
+    let sample1 = new Audio("sample1.mp3");
+    let sample2 = new Audio("sample2.mp3");
+    let sample3 = new Audio("sample3.mp3");
+    let sample4 = new Audio("sample4.mp3");
+    let musicArray = [sample1, sample2, sample3, sample4];
+
+    // creating a random number thats used as the index for the array
+    let randomNum = Math.floor(Math.random() * timerAmount);
+    let soundSelection = randomNum % musicArray.length;
+    audioChosen = musicArray[soundSelection];
+  }
+  move()//start the progress bar
   // looping the audio always
   audioChosen.loop = true; // we are targeting an html attribute of the mp3 
   // playing the audio that was randomly selected
   audioChosen.play();
   // when the timer duration is up, we'll pause the sound
-  setTimeout(() => {
+  timeoutid = setTimeout(() => {
     audioChosen.pause();
-  }, timerAmount);
+  }, secondsLeft);
 }
 const deg = 6;
 const hour = document.querySelector(".hour");
@@ -71,63 +89,69 @@ if (currentTheme) {
 }
 
 const postTask = (e) => {
-  
+
   console.log("you cicked the button")
   let timerAmount = document.querySelector(".minutes").value
   let task = document.getElementById('testTwo').value
-  console.log({timerAmount,task})
+  console.log({ timerAmount, task })
   fetch("postTask", {
-    method:"put",
-    headers:{"Content-Type": "application/json"},
+    method: "put",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      timerAmount, 
+      timerAmount,
       task
     })
   })
-    .then((response)=>{
-    if(response.ok) return response.text()
-  })
-  .then((text)=>{
-    console.log(text)
-  })
+    .then((response) => {
+      if (response.ok) return response.text()
+    })
+    .then((text) => {
+      console.log(text)
+    })
 }
 document.querySelector(".start").addEventListener("click", postTask);
-document.querySelector(".startWalk").addEventListener("click", travelTime)
+document.querySelector(".pauseWalk").addEventListener("click", travelTime)
 let distanceArray = []
 let timerId
-function travelTime(){
+function travelTime() {
+  timerPaused = true
+  audioChosen.pause()
+  clearTimeout(timeoutid)
+  pauseTime = (new Date()).getTime()
   console.log('Hit')
   const status = document.querySelector(".locationString")
   function success(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-  
+
     console.log('lat:', latitude, 'long:', longitude)
-   
+
     distanceArray.push({ latitude: latitude, longitude: longitude })
   }
   function error() {
     status.textContent = 'Unable to retrieve your location';
-}
- //if there is no geolocation API, then send this msg
- if (!navigator.geolocation) {
-  status.textContent = 'Geolocation is not supported by your browser';
-} else {
-  //if there is a location, then we will automatically run and get the current position of every 2 seconds
-  timerId = setInterval(() => {
+  }
+  //if there is no geolocation API, then send this msg
+  if (!navigator.geolocation) {
+    status.textContent = 'Geolocation is not supported by your browser';
+  } else {
+    //if there is a location, then we will automatically run and get the current position of every 2 seconds
+    timerId = setInterval(() => {
       status.textContent = 'Locating…';
       //telling it to start tracking
       navigator.geolocation.getCurrentPosition(success, error, options);
       console.log(distanceArray,)
-  }, 2000)
-}
-//getCurrentPosition needs this passed into it
-options = {
-  enableHighAccuracy: false,
-  timeout: 5000,
-  //the position you find acceptable to return
-  maximumAge: 0
-};
+    }, 2000)
+  }
+  //getCurrentPosition needs this passed into it
+  options = {
+    enableHighAccuracy: false,
+    timeout: 5000,
+    //the position you find acceptable to return
+    maximumAge: 0
+  };
+  this.style.display='none'
+  document.querySelector(".resumeWalk").style.display = 'block'
 }
 function distance(lat1, lat2, lon1, lon2) {
 
@@ -143,8 +167,8 @@ function distance(lat1, lat2, lon1, lon2) {
   let dlon = lon2 - lon1;
   let dlat = lat2 - lat1;
   let a = Math.pow(Math.sin(dlat / 2), 2)
-      + Math.cos(lat1) * Math.cos(lat2)
-      * Math.pow(Math.sin(dlon / 2), 2);
+    + Math.cos(lat1) * Math.cos(lat2)
+    * Math.pow(Math.sin(dlon / 2), 2);
 
   let c = 2 * Math.asin(Math.sqrt(a));
 
@@ -154,7 +178,9 @@ function distance(lat1, lat2, lon1, lon2) {
   // calculate the result
   return (c * r);
 }
-document.querySelector('.stopWalk').addEventListener('click', () => {
+document.querySelector('.resumeWalk').addEventListener('click', () => {
+  launchTimer(timerAmount - pauseTime)
+
   //distanceArr has all of the coordinates as objects, in pairs as lat and long
   //we're passing the current pair and grabbing the lat
   // then we're telling it to referecne the distanceArr and use the currentidex that we're all, and then add one to it
@@ -164,42 +190,71 @@ document.querySelector('.stopWalk').addEventListener('click', () => {
   //looping through the global array and setting safety checks to ensure that there is always more than one coordinate pair inside of the array and that we arent at the last set of coordinates
   let correctSize = distanceArray.length > 1
   if (correctSize) {
-      distanceArray.forEach((currentValue, currentIndex) => {
-          let notLastEntry = currentIndex + 1 != distanceArray.length
-          if (notLastEntry) {
-              // calcute the difference between the two points
-              let deltaDistance = distance(
-                  //grabbing the latitude of the object inside of the array
-                  currentValue.latitude,
-                  //grabing the latitude of the next object inside of the array
-                  distanceArray[currentIndex + 1].latitude,
-                  //doing the same thing as it did with the first latitude  
-                  currentValue.longitude,
-                  //doing the same thing as it did with the second latitude 
-                  distanceArray[currentIndex + 1].longitude
-              )
-              distanceCollection.push(deltaDistance)
-          }
+    distanceArray.forEach((currentValue, currentIndex) => {
+      let notLastEntry = currentIndex + 1 != distanceArray.length
+      if (notLastEntry) {
+        // calcute the difference between the two points
+        let deltaDistance = distance(
+          //grabbing the latitude of the object inside of the array
+          currentValue.latitude,
+          //grabing the latitude of the next object inside of the array
+          distanceArray[currentIndex + 1].latitude,
+          //doing the same thing as it did with the first latitude  
+          currentValue.longitude,
+          //doing the same thing as it did with the second latitude 
+          distanceArray[currentIndex + 1].longitude
+        )
+        distanceCollection.push(deltaDistance)
       }
-      )
+    }
+    )
   }
   // going through the distanceCollection array and combining the values and sum of the distance collection
   //totalSum is the accumalator, looping through the array
   //currentValue will be the first entry of the array
-  let totalDistance = distanceCollection.reduce((totalSum, currentValue) => totalSum + currentValue)
+  let totalDistance = distanceCollection.reduce((totalSum, currentValue) => totalSum + currentValue, 0)
   console.log('totalDistance:', totalDistance)
   //we are stopping the timer loop 
   clearInterval(timerId)
   //getting todays current date
   const distanceWalked = document.querySelector('.locationString')
-  if ( totalDistance < 0.25){
-  distanceWalked.textContent = `you walked: ${Math.floor(totalDistance * 5280)} feet,`;
+  if (totalDistance < 0.25) {
+    distanceWalked.textContent = `you walked: ${Math.floor(totalDistance * 5280)} feet,`;
 
-  }else {distanceWalked.textContent = `you walked: ${Math.floor(totalDistance )} miles,`; }
+  } else { distanceWalked.textContent = `you walked: ${Math.floor(totalDistance)} miles,`; }
 
   // send total desiance in miles times number of feet in mille 5280
   // i want to send that to ejs in the location string
   // if distance is more than a 0.25 send totalDistanice miles 
-    })
+  this.style.display='none'
+  document.querySelector(".pauseWalk").style.display = 'block'
+})
+
+var i = 0;
+function move() {
 
 
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById("myBar");
+
+
+    var id = setInterval(frame, 1000);
+    function frame() {
+
+      const currentTime = (new Date()).getTime()
+      var width = ((currentTime - startTime) / timerAmount) * 100;
+      console.log(startTime, currentTime, timerAmount, width, currentTime - startTime, timerPaused)
+      if (width >= 100 || timerPaused) {
+        clearInterval(id);
+        i = 0;
+      } else {
+
+        elem.style.width = width + "%";
+      }
+    }
+
+  }
+}
+
+document.querySelector('.resumeWalk').style.display='none'

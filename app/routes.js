@@ -30,11 +30,11 @@ module.exports = function (app, passport, db) {
 
     app.delete('/deleteTask', (req, res) => {
         console.log(req.body.id, req.user.local.email)
-        db.collection('tasks').deleteOne({ _id: ObjectId(req.body.id)}, (err, result) => {
-          if (err) return res.send(500, err)
-          res.send('task deleted!')
+        db.collection('tasks').deleteOne({ _id: ObjectId(req.body.id) }, (err, result) => {
+            if (err) return res.send(500, err)
+            res.send('task deleted!')
         })
-      })
+    })
 
     app.get('/dashboard', isLoggedIn, function (req, res) {
         db.collection('tasks').find({ // these values are not being set by the code
@@ -75,20 +75,34 @@ module.exports = function (app, passport, db) {
                 } else if (currentHour >= 17 && currentHour <= 24) {
                     if (recipe.randomMeal.whatTimeIsIt === 'dinner') {
                         return recipe
+
                     }
+
                 }
             })
+            console.log("looking for filteredArr", filteredArr)
             const randomIndex = Math.floor(Math.random() * filteredArr.length)
 
 
             res.render('recipe.ejs', {
                 randomMeal: filteredArr[randomIndex].randomMeal
-                // logic is broken somewhere. 
+
             });
         })
     });
     app.get('/task', isLoggedIn, function (req, res) {
-        res.render('task.ejs');
+        db.collection('tasks').find({ user: req.user.local.email }).toArray((err, tasks) => {
+           let selfCareTasks = tasks.map((task)=>{ 
+                let test= task.selfCareData.selfCareTask
+                return test  
+            })
+
+           
+            res.render('task.ejs', {
+                tasks:new Set(selfCareTasks)
+
+            })
+        });
     });
 
     app.get('/music', isLoggedIn, function (req, res) {
@@ -101,7 +115,7 @@ module.exports = function (app, passport, db) {
             });
         });
     });
-    app.get('/features', isLoggedIn, function (req, res) {
+    app.get('/features', function (req, res) {
         res.render('features.ejs')
 
     });
@@ -135,16 +149,17 @@ module.exports = function (app, passport, db) {
         )
         console.log('saved to completed task')
     })
-    app.post('/recordTask', isLoggedIn, (req, res) => {
+    app.post('/recordTask', isLoggedIn, (req, res) => { 
+        let selfCareTask = req.body.newSelfCareTask
+        
         db.collection('tasks').insertOne({
             user: req.user.local.email,
             task: req.body.task,
             dateSubmited: new Date().toLocaleDateString(),
             selfCareData: {
                 didSelfCare: req.body.didSelfCare,
-                selfCareTask: req.body.selfCareTask,
+                selfCareTask: (req.body.selfCareTask=== "none")? selfCareTask:req.body.selfCareTask,
                 amountOfTimesDone: 0,
-                newSelfCare: req.body.newSelfCare
             },
             timesCompleted: 0,
             totalMinutesIttook: 0

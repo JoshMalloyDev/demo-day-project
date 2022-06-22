@@ -5,23 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/dceedc8de0.js" crossorigin="anonymous"></script>  <link rel="stylesheet" href="manage.css">
     <title>Manage</title>
 </head>
 
 <body>
-    <ul>
-        <% for(let i=0; i <tasks.length; i++){%>
-            <li>
-                <span data-id="<%=tasks[i]._id %>">
-                    <%-tasks[i].task %>
-                </span>
-                <button class="edit">edit task name</button>
-                <button class="delete">delete task</button>
-                <span></span>
-            </li>
-            <%}%>
-    </ul>
-
+  
+    <main>
+        <div class="wrap">
+            <% for(let i=0; i <tasks.length; i++){%>
+          <div class="title one">
+            <i class="fa-regular fa-2xl fa-square-minus delete"></i>    
+            <p><pre data-id="<%=tasks[i]._id %>"><%=tasks[i].task%></pre></p>
+          </div>
+          <%}%>
+          
+        
+        </main>
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js'></script>
 </body>
 <script src="manage.js"></script>
 </html>

@@ -41,9 +41,14 @@
         <p>
           <label>If yes, was it any of your previous self-care tasks?</label>
           <select name="selfCareTask">
-            <option value="cleaned the house">cleaned the house</option>
-            <option value="went to the gym">went to the gym</option>
-            <option value="took a bath">took a bath</option>
+            <option value="none"></option>
+          
+            <% for(let task of tasks){%>
+             
+            <option value="<%=task%>">
+              <%=task%>
+            </option>
+            <%}%>
           </select>
         </p>
         <p>

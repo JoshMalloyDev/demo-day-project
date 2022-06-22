@@ -54,6 +54,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top:4%;
   justify-content: center;
   font-size: 16px;
   background-color: var(--main-bg-color);
@@ -159,4 +160,18 @@ button:hover {
   cursor: pointer;
   transition: all ease 0.3s;
   font-family: "Space Grotesk", sans-serif;
+}
+
+#myProgress {
+  width: 50%;
+  background-color:#ccc; 
+  border-radius: 10px;
+  margin-bottom: 44px;
+}
+
+#myBar {
+  width: 1%;
+  height: 30px;
+  background-color: rgb(213, 45, 15);
+  border-radius: 10px;
 }

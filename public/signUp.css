@@ -411,7 +411,7 @@ body {
 }
 
 .login-box h2 {
-  margin: 0 0 30px;
+  margin: 0 0 50px;
   padding: 0;
   color: #fff;
   text-align: center;
@@ -435,7 +435,7 @@ body {
 }
 .login-box .user-box label {
   position: absolute;
-  top: 0;
+  top: -35px;
   left: 0;
   padding: 10px 0;
   font-size: 16px;
@@ -444,9 +444,10 @@ body {
   transition: 0.5s;
 }
 
+
 .login-box .user-box input:focus ~ label,
 .login-box .user-box input:valid ~ label {
-  top: -20px;
+  top: -35px;
   left: 0;
   color: #000000;
   font-size: 12px;
