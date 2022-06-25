@@ -6,7 +6,7 @@ document.querySelector(".logRecipe").addEventListener("click", logFinalRecipe);
 // it as its looping through all of the inputs
 function logFinalRecipe() {
   let recipeArray = [];
-  
+
   let rowArray = document.querySelectorAll(".somerow"); // an array or all of the rows
   // we are begining to loop throw the array
   for (let i = 0; i < rowArray.length; i++) { // we looped throw the row 
@@ -16,40 +16,42 @@ function logFinalRecipe() {
   }
 
   let recipeTitle = document.querySelector('.recipeTitle').value
-console.log(recipeTitle)
-let whatTimeIsIt = document.querySelector('.time').value
+  console.log(recipeTitle)
+  let whatTimeIsIt = document.querySelector('.time').value
   // final object to ship over to the server
-  let recipeDataForServer = { 
+  let recipeDataForServer = {
     steps: recipeArray,
-    whatTimeIsIt: whatTimeIsIt,  
+    whatTimeIsIt: whatTimeIsIt,
     recipeTitle: recipeTitle,
 
   };
 
   console.log(recipeDataForServer, "data for server");
   fetch("submitRecipes", {
-    method:"post",
-    headers:{"Content-Type": "application/json"},
+    method: "post",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      recipeDataForServer:recipeDataForServer
+      recipeDataForServer: recipeDataForServer
     })
   })
-  // .then((response)=>{
-  //   if(response.ok) return response.text()
-  // })
-  // .then((text)=>{
-  //   console.log(text)
-  // })
+    .then((response) => {
+      if (response.ok) return response.text()
+    })
+    .then((text) => {
+      console.log(text)
+      window.location.reload()
+    })
 }
 // looked at stackover flow solutions
 function addRow(tableID) {
   let table = document.getElementsByClassName(tableID);
   let rowCount = table[0].rows.length;
-
+  console.log(tableID)
   if (rowCount >= 21) {
     // +1 for header row.
     return;
   }
+
 
   let row = table[0].insertRow(rowCount);
   row.classList.add("somerow");
@@ -89,14 +91,14 @@ function deleteRow(tableID) {
 }
 
 document.querySelector('.button').addEventListener('click', chooseMeal)
-function chooseMeal(){
+function chooseMeal() {
   console.log('choosing')
   let currentHour = new Date().getHours();
   fetch("getMeal", {
-    method:"post",
-    headers:{"Content-Type": "application/json"},
+    method: "post",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      currentHour:currentHour
+      currentHour: currentHour
     })
   })
 }

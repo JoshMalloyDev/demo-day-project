@@ -61,6 +61,7 @@ module.exports = function (app, passport, db) {
     });
 
     app.get('/recipe', isLoggedIn, function (req, res) {
+        console.log(req.user.local.email)
         db.collection('recipeSelectionHistory').find({ email: req.user.local.email }).toArray((err, randomSelection) => { //getting the current hour 
             const currentHour = new Date().getHours()
             const filteredArr = randomSelection.filter((recipe) => {
@@ -85,7 +86,7 @@ module.exports = function (app, passport, db) {
 
 
             res.render('recipe.ejs', {
-                randomMeal: filteredArr[randomIndex].randomMeal
+                randomMeal:filteredArr[randomIndex] ? filteredArr[randomIndex].randomMeal : null
 
             });
         })
@@ -170,13 +171,13 @@ module.exports = function (app, passport, db) {
             res.redirect('/task')
         })
     })
-    app.post('/getMeal', (req, res) => {
+    app.post('/getMeal', isLoggedIn, (req, res) => {
         db.collection('recipes').find().toArray((err, recipes) => {
             if (err) return console.log(err)
 
             let breakfastHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-            let lunchHours = [12, 13, 14, 15, 16, 17]; // breaking up the hours of the day
-            let dinnerHours = [18, 19, 20, 21, 22, 23, 24];
+            let lunchHours = [12, 13, 14, 15, 16]; // breaking up the hours of the day
+            let dinnerHours = [17,18, 19, 20, 21, 22, 23, 24];
             let whatTimeIsIt = ""
 
             if (breakfastHours.includes(req.body.currentHour)) whatTimeIsIt += "breakfast";

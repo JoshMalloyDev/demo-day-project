@@ -2,7 +2,7 @@
 <img src="demo.gif" alt="screenshot">
 
 ## Description
-This is an app for those who live with ADHD. At its core, its It's main features are listed below.
+This is an app for those who live with ADHD. At its core, its It's main features are listed below..
 
 
 ## Features
